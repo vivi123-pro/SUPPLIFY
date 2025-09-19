@@ -1,6 +1,10 @@
-# Supplify Backend API
+# Supplify
 
-This is the backend API for Supplify, a platform designed to support SMEs and suppliers with product listings, waste management, orders, and reviews.
+Supplify is a smart B2B platform for small and medium-sized manufacturers that connects suppliers, buyers, and waste recyclers in one seamless ecosystem. It helps SMEs:
+- Find the right suppliers fast with real-time price comparison, location-based search, and supplier ratings.
+- Optimize purchasing decisions to reduce costs and improve production efficiency.
+- Turn waste into value by listing excess materials for other SMEs to buy or recycle, promoting a circular economy.
+- Track performance and savings via dashboards showing cost, waste, and supplier metrics.
 
 ## Technology Stack
 
