@@ -1,6 +1,7 @@
 # suppliers/views.py
 from rest_framework import viewsets, permissions, filters, status
 from rest_framework.decorators import action
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import (
@@ -10,7 +11,7 @@ from .models import (
 from .serializers import (
     SupplierSerializer, ProductSerializer,
     WasteListingSerializer, WasteOfferSerializer,
-    OrderSerializer
+    OrderSerializer, ProductComparisonSerializer
 )
 
 class SupplierViewSet(viewsets.ModelViewSet):
@@ -44,6 +45,34 @@ class SupplierViewSet(viewsets.ModelViewSet):
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
 
+class SupplierSearchView(APIView):
+    """
+    GET /api/v1/search/suppliers/?product_name=xxx&location=yyy
+    Returns suppliers offering the product, ranked by price + rating.
+    """
+
+    def get(self, request):
+        product_name = request.query_params.get("product_name")
+        location = request.query_params.get("location", "")
+
+        if not product_name:
+            return Response({"error": "product_name query param is required"}, status=400)
+
+        products = Product.objects.filter(name__icontains=product_name)
+        if location:
+            products = products.filter(location__icontains=location)
+
+        # Ranking: cheaper price + higher rating
+        product_list = list(products)
+        for p in product_list:
+            # Simple scoring formula
+            p.score = float(p.price) - (p.supplier.rating or 0) * 0.1  # tweak factor
+
+        product_list.sort(key=lambda x: x.score)  # lower score = better deal
+
+        serializer = ProductComparisonSerializer(product_list, many=True)
+        return Response(serializer.data)
+
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
@@ -55,6 +84,30 @@ class ProductViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         supplier = self.request.user.supplier_profile
         serializer.save(supplier=supplier)
+
+    @action(detail=True, methods=["get"])
+    def compare(self, request, pk=None):
+        """
+        GET /api/v1/products/{product_id}/compare/?location=xxx
+        Returns all suppliers offering this product, ranked by price & rating.
+        """
+        product = self.get_object()
+        products = Product.objects.filter(name__iexact=product.name)
+
+        location = request.query_params.get("location")
+        if location:
+            products = products.filter(location__icontains=location)
+
+        # Ranking logic: cheaper price + higher rating
+        product_list = list(products)
+        for p in product_list:
+            # Score formula: price - (rating * factor)
+            p.score = float(p.price) - (p.supplier.rating or 0) * 0.1  # tweak factor as needed
+
+        product_list.sort(key=lambda x: x.score)  # lowest score = best deal
+
+        serializer = ProductComparisonSerializer(product_list, many=True)
+        return Response(serializer.data)
 
 
 class WasteListingViewSet(viewsets.ModelViewSet):

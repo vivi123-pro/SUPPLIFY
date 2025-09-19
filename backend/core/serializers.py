@@ -39,3 +39,12 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = "__all__"
         read_only_fields = ["buyer", "status", "created_at"]
+        
+class ProductComparisonSerializer(serializers.ModelSerializer):
+    supplier_name = serializers.CharField(source='supplier.company_name', read_only=True)
+    supplier_rating = serializers.FloatField(source='supplier.rating', read_only=True)
+
+    class Meta:
+        model = Product
+        fields = ['id', 'name', 'price', 'min_qty', 'location', 'supplier_name', 'supplier_rating']
+
