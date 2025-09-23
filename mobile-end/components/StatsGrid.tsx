@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     ...Platform.select({
       ios: {
-        shadowColor: "black",
+        shadowColor: "#000",
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.1,
         shadowRadius: 6,

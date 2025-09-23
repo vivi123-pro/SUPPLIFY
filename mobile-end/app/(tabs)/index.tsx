@@ -23,7 +23,7 @@ const data = [
     icon: Recycle,
     title: "Surplus Deals",
     stat: "45 active deals",
-    bgColor: "#d97706",
+    bgColor: "#fbbf24",
   },
   {
     key: "3",

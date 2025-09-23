@@ -10,7 +10,11 @@ import React, { useState } from "react";
 import { Search } from "lucide-react-native";
 import { colors } from "@/theme/theme";
 
-const SupplyAndSurplusSearch = () => {
+interface Color {
+  color: string;
+}
+
+const SupplyAndSurplusSearch: React.FC<Color> = ({ color }) => {
   const [query, setQuery] = useState("");
 
   return (
@@ -26,7 +30,7 @@ const SupplyAndSurplusSearch = () => {
           />
         </View>
       </View>
-      <TouchableOpacity style={styles.find}>
+      <TouchableOpacity style={[styles.find, { backgroundColor: color }]}>
         <Text style={styles.findInner}>Find</Text>
       </TouchableOpacity>
     </View>
@@ -86,7 +90,6 @@ const styles = StyleSheet.create({
     color: "#1a1a1a",
   },
   find: {
-    backgroundColor: colors.primary,
     paddingVertical: 13,
     paddingHorizontal: 17,
     borderRadius: 30,

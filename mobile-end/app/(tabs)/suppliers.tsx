@@ -179,7 +179,7 @@ const Suppliers = () => {
         ListHeaderComponent={() => (
           <>
             <SupplierHeader />
-            <SupplyAndSurplusSearch />
+            <SupplyAndSurplusSearch color="#008751" />
           </>
         )}
       />
