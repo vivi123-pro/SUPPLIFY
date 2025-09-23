@@ -16,28 +16,28 @@ const data = [
     icon: Package,
     title: "Raw Materials",
     stat: "120+ suppliers",
-    bgColor: "#008751cb",
+    bgColor: "#008751",
   },
   {
     key: "2",
     icon: Recycle,
     title: "Surplus Deals",
     stat: "45 active deals",
-    bgColor: "#d97706cb",
+    bgColor: "#d97706",
   },
   {
     key: "3",
     icon: Heart,
     title: "Favorites",
     stat: "12 saved",
-    bgColor: "#e0327acb",
+    bgColor: "#e0327a",
   },
   {
     key: "4",
     icon: TrendingUp,
     title: "Analytics",
     stat: "View reports",
-    bgColor: "#2563ebcb",
+    bgColor: "#2563eb",
   },
 ];
 

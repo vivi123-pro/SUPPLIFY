@@ -6,11 +6,13 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { Search } from "lucide-react-native";
 import { colors } from "@/theme/theme";
 
 const SupplyAndSurplusSearch = () => {
+  const [query, setQuery] = useState("");
+
   return (
     <View style={styles.container}>
       <View style={styles.searchBarContainer}>
@@ -20,6 +22,7 @@ const SupplyAndSurplusSearch = () => {
             placeholder="Search materials, suppliers, locatio..."
             placeholderTextColor="#9ca3af"
             style={styles.searchInput}
+            onChangeText={setQuery}
           />
         </View>
       </View>
@@ -39,6 +42,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     gap: 7,
+    marginBottom: 20,
   },
   searchBarContainer: {
     position: "relative",
@@ -49,13 +53,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 4,
     borderRadius: 25,
-    elevation: 1,
+
+    backgroundColor: "rgba(255, 255, 255, 1)",
     ...Platform.select({
       ios: {
-        backgroundColor: "rgba(255, 255, 255, 1)",
+        shadowColor: "black",
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 0.1,
+        shadowRadius: 15,
       },
       android: {
-        backgroundColor: "rgba(255, 255, 255, 1)",
+        elevation: 1,
       },
     }),
   },

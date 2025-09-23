@@ -71,6 +71,7 @@ export default function TabLayout() {
   const tabBarHeight = isAndroid ? 40 + insets.bottom : 70 + insets.bottom;
 
   const bottom = isAndroid ? 50 : 10;
+  const marHori = isAndroid ? 10 : 15;
 
   return (
     <View
@@ -94,7 +95,7 @@ export default function TabLayout() {
             height: tabBarHeight,
             paddingBottom: insets.bottom,
             paddingTop: 20,
-            marginHorizontal: 10,
+            marginHorizontal: marHori,
           },
           tabBarBackground: () => {
             // Conditionally render based on platform
@@ -112,7 +113,7 @@ export default function TabLayout() {
             }
             return (
               <BlurView
-                intensity={7}
+                intensity={8}
                 tint="light"
                 style={{
                   ...StyleSheet.absoluteFillObject,
