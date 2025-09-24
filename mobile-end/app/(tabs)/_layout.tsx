@@ -201,6 +201,10 @@ export default function TabLayout() {
        name="supplier/[id]"
        options={{href: null}}
        />
+       <Tabs.Screen
+       name="surplus/[id]"
+        options={{href: null}}
+        />
       </Tabs>
     </View>
   );

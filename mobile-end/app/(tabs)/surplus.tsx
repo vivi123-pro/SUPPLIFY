@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, FlatList } from "react-native";
+import { View, Text, ScrollView, FlatList, Pressable } from "react-native";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -6,6 +6,7 @@ import { colors } from "@/theme/theme";
 import SurplusHeader from "@/components/SurplusHeader";
 import SurplusCard from "@/components/SurplusCard";
 import SupplyAndSurplusSearch from "@/components/SupplyAndSurplusSearch";
+import { useRouter } from "expo-router";
 
 const DISPLAY_RATE = 3;
 
@@ -14,7 +15,7 @@ const data = [
     key: "1",
     img: "https://images.unsplash.com/photo-1598302936625-6075fbd98dd7?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     name: "Alaba Industrial Suppliers",
-    material: "Steel",
+    material: "Textile",
     verified: true,
     price: 45000,
     location: "Lagos",
@@ -24,7 +25,7 @@ const data = [
     key: "2",
     img: "https://images.unsplash.com/photo-1598302936625-6075fbd98dd7?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     name: "Alaba Industrial Suppliers",
-    material: "Steel",
+    material: "Textile",
     verified: true,
     price: 1000000,
     location: "Kano",
@@ -34,7 +35,7 @@ const data = [
     key: "3",
     img: "https://images.unsplash.com/photo-1598302936625-6075fbd98dd7?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     name: "Alaba Industrial Suppliers",
-    material: "Steel",
+    material: "Textile",
     verified: true,
     price: 234,
     location: "Lagos",
@@ -44,7 +45,7 @@ const data = [
     key: "4",
     img: "https://images.unsplash.com/photo-1598302936625-6075fbd98dd7?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     name: "Alaba Industrial Suppliers",
-    material: "Steel",
+    material: "Textile",
     verified: false,
     price: 45000,
     location: "Abia",
@@ -54,7 +55,7 @@ const data = [
     key: "5",
     img: "https://images.unsplash.com/photo-1598302936625-6075fbd98dd7?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     name: "Alaba Industrial Suppliers",
-    material: "Steel",
+    material: "Textile",
     verified: false,
     price: 435000,
     location: "Lagos",
@@ -64,7 +65,7 @@ const data = [
     key: "6",
     img: "https://images.unsplash.com/photo-1598302936625-6075fbd98dd7?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     name: "Alaba Industrial Suppliers",
-    material: "Steel",
+    material: "Textile",
     verified: true,
     price: 45000,
     location: "Lagos",
@@ -74,7 +75,7 @@ const data = [
     key: "7",
     img: "https://images.unsplash.com/photo-1598302936625-6075fbd98dd7?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     name: "Alaba Industrial Suppliers",
-    material: "Steel",
+    material: "Textile",
     verified: true,
     price: 45000,
     location: "Lagos",
@@ -84,7 +85,7 @@ const data = [
     key: "8",
     img: "https://images.unsplash.com/photo-1598302936625-6075fbd98dd7?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     name: "Alaba Industrial Suppliers",
-    material: "Steel",
+    material: "Textile",
     verified: true,
     price: 45000,
     location: "Lagos",
@@ -94,7 +95,7 @@ const data = [
     key: "9",
     img: "https://images.unsplash.com/photo-1598302936625-6075fbd98dd7?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     name: "Alaba Industrial Suppliers",
-    material: "Steel",
+    material: "Textile",
     verified: true,
     price: 45000,
     location: "Lagos",
@@ -104,7 +105,7 @@ const data = [
     key: "10",
     img: "https://images.unsplash.com/photo-1598302936625-6075fbd98dd7?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     name: "Alaba Industrial Suppliers",
-    material: "Steel",
+    material: "Textile",
     verified: true,
     price: 45000,
     location: "Lagos",
@@ -114,7 +115,7 @@ const data = [
     key: "11",
     img: "https://images.unsplash.com/photo-1598302936625-6075fbd98dd7?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     name: "Alaba Industrial Suppliers",
-    material: "Steel",
+    material: "Textile",
     verified: true,
     price: 45000,
     location: "Lagos",
@@ -124,7 +125,7 @@ const data = [
     key: "12",
     img: "https://images.unsplash.com/photo-1598302936625-6075fbd98dd7?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     name: "Alaba Industrial Suppliers",
-    material: "Steel",
+    material: "Textile",
     verified: true,
     price: 45000,
     location: "Lagos",
@@ -151,6 +152,9 @@ const Suppliers = () => {
     loadMoreData();
   }, []);
 
+
+  const router = useRouter();
+
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: colors.primaryForeground }}
@@ -161,7 +165,7 @@ const Suppliers = () => {
         numColumns={1}
         style={{ marginBottom: 50 }}
         renderItem={({ item }) => (
-          <View style={{ flex: 1, padding: 8 }}>
+          <Pressable style={{ flex: 1, padding: 8 }} onPress={() => router.push(`/surplus/${item.key}`)}>
             <SurplusCard
               img={item.img}
               name={item.name}
@@ -171,7 +175,7 @@ const Suppliers = () => {
               location={item.location}
               pending={item.pending}
             />
-          </View>
+          </Pressable>
         )}
         onEndReached={loadMoreData}
         onEndReachedThreshold={0.5}
