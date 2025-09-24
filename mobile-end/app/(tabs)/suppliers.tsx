@@ -1,4 +1,3 @@
-import { View, Text, ScrollView, FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -6,6 +5,8 @@ import SupplierHeader from "@/components/SupplierHeader";
 import SupplyAndSurplusSearch from "@/components/SupplyAndSurplusSearch";
 import SellerCard from "@/components/SellerCard";
 import { colors } from "@/theme/theme";
+import { useRouter } from "expo-router";
+import { FlatList, Pressable } from "react-native";
 
 const DISPLAY_RATE = 3;
 
@@ -151,6 +152,9 @@ const Suppliers = () => {
     loadMoreData();
   }, []);
 
+
+  const router = useRouter();
+
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: colors.primaryForeground }}
@@ -161,7 +165,7 @@ const Suppliers = () => {
         numColumns={1}
         style={{ marginBottom: 50 }}
         renderItem={({ item }) => (
-          <View style={{ flex: 1, padding: 8 }}>
+          <Pressable style={{ flex: 1, padding: 8 }} onPress={() => router.push(`/supplier/${item.key}`)}>
             <SellerCard
               img={item.img}
               name={item.name}
@@ -171,7 +175,7 @@ const Suppliers = () => {
               location={item.location}
               limitedStock={item.limitedStock}
             />
-          </View>
+          </Pressable>
         )}
         onEndReached={loadMoreData}
         onEndReachedThreshold={0.5}

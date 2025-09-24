@@ -4,6 +4,7 @@ import { Home, Package, Recycle, BarChart3, User } from "lucide-react-native";
 import { BlurView } from "expo-blur";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTheme } from "@react-navigation/native";
+import { colors } from "@/theme/theme";
 
 // Your TabIcon component is fine, no changes needed here.
 function TabIcon({ icon: Icon, focused, color, size, title }: any) {
@@ -196,6 +197,10 @@ export default function TabLayout() {
             ),
           }}
         />
+       <Tabs.Screen
+       name="supplier/[id]"
+       options={{href: null}}
+       />
       </Tabs>
     </View>
   );

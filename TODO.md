@@ -1,0 +1,5 @@
+- [ ] Edit mobile-end/app/(tabs)/suppliers.tsx to add modal for supplier details
+  - [ ] Add imports for Modal and Image
+  - [ ] Add state for modalVisible and selectedSupplier
+  - [ ] Change onPress to set selectedSupplier and show modal
+  - [ ] Add Modal component with full screen presentation, close button, and supplier detail content
