@@ -1,15 +1,17 @@
+from datetime import datetime
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
-from .models import Review
-from .serializers import ReviewSerializer
+from .models import Review, Insight
+from .serializers import ReviewSerializer, InsightSerializer
 from core.models import Supplier, WasteListing, Product
 from core.serializers import SupplierSerializer
 from django.db.models import Sum
 from django.core.files.storage import default_storage
+from .services.insights import collect_supplier_metrics, generate_insights_with_gemini
 
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all()
@@ -95,3 +97,42 @@ class FileUploadView(APIView):
         path = default_storage.save(f"uploads/{file_obj.name}", file_obj)
         url = default_storage.url(path)
         return Response({"url": url})
+    
+class InsightsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        """
+        GET /api/v1/insights/?refresh=true
+        - If refresh=true: compute metrics and generate new insights using Gemini.
+        - Otherwise: return latest stored insights for the user.
+        """
+        user = request.user
+        refresh = request.query_params.get("refresh", "false").lower() in ("1", "true", "yes")
+
+        if not refresh:
+            qs = Insight.objects.filter(user=user).order_by("-created_at")[:10]
+            serializer = InsightSerializer(qs, many=True)
+            return Response(serializer.data)
+
+        # Collect metrics
+        metrics = collect_supplier_metrics(user)
+
+        # Call Gemini via LangChain to generate humanized insights
+        # Optionally pass google_api_key if you want to override env var
+        llm_result = generate_insights_with_gemini(metrics, user_name=getattr(user, "company_name", user.email))
+
+        # Save a single Insight record summarizing results
+        # Compose title + body
+        title = "Auto Insights • " + datetime.now().strftime("%Y-%m-%d")
+        body_blocks = []
+        if llm_result.get("insights"):
+            body_blocks.append("Insights:\n- " + "\n- ".join(llm_result["insights"]))
+        if llm_result.get("recommendations"):
+            body_blocks.append("Recommendations:\n- " + "\n- ".join(llm_result["recommendations"]))
+        body_text = "\n\n".join(body_blocks) or llm_result.get("raw", "")
+
+        insight = Insight.objects.create(user=user, title=title, body=body_text, metadata=metrics)
+
+        serializer = InsightSerializer(insight)
+        return Response(serializer.data)

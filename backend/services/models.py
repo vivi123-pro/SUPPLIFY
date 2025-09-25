@@ -13,3 +13,14 @@ class Review(models.Model):
     rating = models.PositiveIntegerField()  # 1–5
     comment = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    
+class Insight(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="insights")
+    title = models.CharField(max_length=255)
+    body = models.TextField()
+    metadata = models.JSONField(default=dict, blank=True)  # store raw metrics
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Insight for {self.user.email} @ {self.created_at.isoformat()}"

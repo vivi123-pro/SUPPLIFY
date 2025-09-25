@@ -8,12 +8,28 @@ Supplify is a smart B2B platform for small and medium-sized manufacturers that c
 
 ## Technology Stack
 
+### Backend
 - Python 3.x
 - Django 5.2.6
 - Django REST Framework
 - Simple JWT for authentication
 - drf-spectacular for API schema and documentation
 - SQLite (default database)
+
+### Frontend
+- React 19.1.1
+- Vite
+- Tailwind CSS
+- Axios for API calls
+- React Router DOM
+- Chart.js for data visualization
+- Leaflet for maps
+
+### Mobile App
+- React Native (Expo)
+- Expo Router
+- TypeScript
+- Lucide React Native for icons
 
 ## Setup Instructions
 
@@ -48,6 +64,49 @@ Supplify is a smart B2B platform for small and medium-sized manufacturers that c
    ```bash
    python backend/manage.py runserver
    ```
+
+### Frontend Setup
+
+1. Navigate to the frontend directory:
+   ```bash
+   cd frontend
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+### Mobile App Setup
+
+1. Ensure you have Expo CLI installed globally:
+   ```bash
+   npm install -g @expo/cli
+   ```
+
+2. Navigate to the mobile-end directory:
+   ```bash
+   cd mobile-end
+   ```
+
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+4. Start the Expo development server:
+   ```bash
+   npm start
+   ```
+
+   - For Android: `npm run android`
+   - For iOS: `npm run ios`
+   - For Web: `npm run web`
 
 ## API Base URL
 

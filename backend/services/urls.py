@@ -1,10 +1,9 @@
 from rest_framework.routers import DefaultRouter
 from django.urls import path
 from .views import (
-    ReviewViewSet, DashboardSummary,
-    WasteTrends, SupplierSearch,
-    PendingSuppliers, VerifySupplier,
-    FileUploadView
+    ReviewViewSet, DashboardSummary, WasteTrends, 
+    SupplierSearch, PendingSuppliers, VerifySupplier,
+    FileUploadView, InsightsView
 )
 
 router = DefaultRouter()
@@ -17,6 +16,7 @@ urlpatterns = [
     path("admin/pending_suppliers/", PendingSuppliers.as_view()),
     path("admin/verify_supplier/", VerifySupplier.as_view()),
     path("uploads/", FileUploadView.as_view()),
+    path("insights/", InsightsView.as_view(), name="insights"),
 ]
 
 urlpatterns += router.urls

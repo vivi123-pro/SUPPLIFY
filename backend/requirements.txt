@@ -16,3 +16,7 @@ referencing==0.36.2
 rpds-py==0.27.1
 sqlparse==0.5.3
 uritemplate==4.2.0
+langchain==0.3.27
+langchain-google-genai==2.1.12
+google-genai==1.38.0
+python-dateutil==2.9.0.post0
